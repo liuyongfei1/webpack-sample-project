@@ -4,9 +4,39 @@ module.exports = {
     path: __dirname + "/public", // 打包后的文件存放的地方
     filename: "bundle.js" // 打包后输出的文件名
   },
+  devtool: 'eval-source-map',
   devServer: {
     contentBase: "./public",//本地服务器所加载的页面所在的目录
     historyApiFallback: true,//不跳转
     inline: true//实时刷新
+  },
+  module: {
+    rules: [
+      {
+        test: /(\.jsx|\.js)$/, // 一个用以匹配loaders所处理文件的拓展名的正则表达式（必须）
+        use: {
+          loader: "babel-loader", // loader的名称（必须）
+          options: {
+            presets: [
+              "es2015", "react"
+            ]
+          }
+        },
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: "style-loader"
+          }, {
+            loader: "css-loader",
+            options: {
+              modules: true
+            }
+          }
+        ]
+      }
+    ]
   }
 }
